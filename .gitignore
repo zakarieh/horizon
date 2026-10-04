@@ -1,0 +1,17 @@
+# build output
+main.js
+*.js.map
+
+# dependencies
+node_modules/
+
+# test / tooling output
+coverage/
+.vitest/
+
+# runtime plugin state (Obsidian writes this into the vault)
+data.json
+
+# editor / OS noise
+.DS_Store
+.obsidian/
