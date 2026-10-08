@@ -1,0 +1,9 @@
+{
+  "id": "task-flow",
+  "name": "Horizon Task",
+  "version": "0.1.0",
+  "minAppVersion": "1.13.0",
+  "description": "Hierarchical, multi-horizon task management: one Kanban board per time horizon, with drag-and-drop columns and goal-tree rollups.",
+  "author": "Horizon Task contributors",
+  "isDesktopOnly": false
+}

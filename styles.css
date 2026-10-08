@@ -1,0 +1,1722 @@
+/*
+ * Horizon Task - base styles.
+ *
+ * Phase 0 only needs the settings-tab chrome. Board, column and card styles
+ * arrive with the view in Phase 3.
+ */
+
+.task-flow-status-list {
+	flex: 1 1 100%;
+	margin: var(--size-4-2) 0 var(--size-4-1);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	overflow: hidden;
+}
+
+.task-flow-status-row {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	padding: var(--size-4-1) var(--size-4-3);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.task-flow-status-row:last-child {
+	border-bottom: none;
+}
+
+.task-flow-status-swatch {
+	width: 0.75em;
+	height: 0.75em;
+	border-radius: 50%;
+	flex: 0 0 auto;
+}
+
+.task-flow-status-meta {
+	margin-inline-start: auto;
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	font-variant-numeric: tabular-nums;
+}
+
+/* A status colour that would disappear into one of the themes. */
+.task-flow-status-warning {
+	color: var(--text-warning);
+	font-size: var(--font-ui-smaller);
+}
+
+/*
+ * The status registry editor: one row per status, with a colour swatch, a
+ * label field, a category picker, and reorder/delete buttons.
+ */
+.task-flow-status-editor .task-flow-status-row {
+	flex-wrap: wrap;
+}
+
+.task-flow-status-color {
+	flex: 0 0 auto;
+	width: 1.75em;
+	height: 1.75em;
+	padding: 0;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	background: none;
+	cursor: pointer;
+}
+
+.task-flow-status-label-input {
+	flex: 1 1 8em;
+	min-width: 6em;
+}
+
+.task-flow-status-category {
+	flex: 0 0 auto;
+	width: auto;
+}
+
+.task-flow-status-editor .task-flow-status-warning {
+	flex: 1 1 100%;
+}
+
+.task-flow-status-action.clickable-icon {
+	flex: 0 0 auto;
+}
+
+.task-flow-status-add {
+	display: flex;
+	justify-content: flex-end;
+	padding: var(--size-4-1) var(--size-4-3);
+}
+
+/*
+ * The tag-colour editor: one row per tag, with a colour swatch, the tag's name,
+ * and a button that returns the tag to the hue hashed from its name.
+ */
+.task-flow-tag-colors {
+	flex: 1 1 100%;
+	margin: var(--size-4-2) 0 var(--size-4-1);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	overflow: hidden;
+}
+
+.task-flow-tag-color-row {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	padding: var(--size-4-1) var(--size-4-3);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.task-flow-tag-color-row:last-child {
+	border-bottom: none;
+}
+
+.task-flow-tag-color {
+	flex: 0 0 auto;
+	width: 1.75em;
+	height: 1.75em;
+	padding: 0;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	background: none;
+	cursor: pointer;
+}
+
+.task-flow-tag-color-label {
+	flex: 1 1 auto;
+	font-family: var(--font-monospace);
+}
+
+.task-flow-tag-colors-empty {
+	padding: var(--size-4-2) var(--size-4-3);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+}
+
+.task-flow-tag-add {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	padding: var(--size-4-1) var(--size-4-3);
+}
+
+.task-flow-tag-add-input {
+	flex: 1 1 auto;
+}
+
+/*
+ * The in-app user guide reuses Obsidian's markdown styling, so only the bits
+ * that read badly in a narrow modal are adjusted: the reference tables and the
+ * wrapped code spans.
+ */
+.task-flow-guide-modal .modal-content {
+	line-height: 1.55;
+}
+
+.task-flow-guide-modal .modal-content table {
+	width: 100%;
+}
+
+.task-flow-guide-modal .modal-content code {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------------------------
+ * Board
+ * ------------------------------------------------------------------------ */
+
+.task-flow-board {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: 0;
+	overflow: hidden;
+}
+
+/* The header is a raised bar: a faint surface behind the tabs and controls, so
+   they read as chrome sitting above the board rather than as part of it. */
+.task-flow-board-header {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+	padding: var(--size-4-3) var(--size-4-4);
+	background: linear-gradient(
+		to bottom,
+		color-mix(in srgb, var(--background-secondary) 90%, var(--background-primary)),
+		var(--background-primary)
+	);
+	border-bottom: 1px solid var(--background-modifier-border);
+	box-shadow: 0 1px 0 color-mix(in srgb, var(--background-modifier-border) 55%, transparent);
+	flex: 0 0 auto;
+}
+
+/* Row one: the horizon tabs centred on the bar's centre line, with the one
+   primary action pinned right. A three-column grid does that regardless of how
+   wide the button is; `space-between` would pull the tabs off-centre. */
+.task-flow-header-bar {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	align-items: center;
+	gap: var(--size-4-2);
+}
+
+/* The horizons are a segmented control: one surface, the active horizon lit
+   inside it. The group is the second column, so it stays centred. */
+.task-flow-tabs {
+	grid-column: 2;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 2px;
+	padding: 2px;
+	background-color: color-mix(in srgb, var(--background-secondary) 65%, transparent);
+	border: 1px solid color-mix(in srgb, var(--background-modifier-border) 80%, transparent);
+	border-radius: var(--radius-l);
+}
+
+.task-flow-tab {
+	padding: 0 var(--size-4-2);
+	line-height: 2;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+	border-radius: calc(var(--radius-l) - 2px);
+	color: var(--text-normal);
+	font-weight: var(--font-medium);
+	cursor: pointer;
+	transition: background-color 120ms ease-out, color 120ms ease-out;
+}
+
+.task-flow-tab:hover,
+.task-flow-tab:focus-visible {
+	background-color: var(--background-modifier-hover);
+}
+
+.task-flow-tab.is-active {
+	background-color: var(--interactive-accent);
+	color: var(--text-on-accent);
+	box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+}
+
+.task-flow-controls {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	flex-wrap: wrap;
+}
+
+.task-flow-period {
+	font-weight: var(--font-semibold);
+	min-width: 12ch;
+	text-align: center;
+}
+
+.task-flow-nav {
+	padding: var(--size-2-1) var(--size-4-2);
+	line-height: 1;
+	border-radius: var(--radius-s);
+	color: var(--text-muted);
+}
+
+.task-flow-nav:hover,
+.task-flow-nav:focus-visible {
+	background-color: var(--background-modifier-hover);
+	color: var(--text-normal);
+}
+
+.task-flow-search {
+	flex: 0 1 16rem;
+	min-width: 8rem;
+}
+
+/* Row two ends with the filters, so a wide window leaves the empty space in the
+   middle rather than between the controls. */
+.task-flow-controls-end {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	margin-inline-start: auto;
+}
+
+.task-flow-new-task {
+	grid-column: 3;
+	justify-self: end;
+	flex: 0 0 auto;
+}
+
+/* Narrow windows: the three columns collapse to one, so the tabs stay centred
+   and the action drops below them instead of squeezing the row. */
+@media (max-width: 700px) {
+	.task-flow-header-bar {
+		grid-template-columns: 1fr;
+	}
+
+	.task-flow-tabs,
+	.task-flow-new-task {
+		grid-column: 1;
+		justify-self: center;
+	}
+}
+
+.task-flow-board-body {
+	flex: 1 1 auto;
+	overflow: auto;
+	padding: var(--size-4-4);
+}
+
+.task-flow-columns {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--size-4-3);
+	min-height: 100%;
+	padding-bottom: var(--size-4-3);
+}
+
+.task-flow-column {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 0;
+	min-width: 15rem;
+	max-height: 100%;
+	background-color: var(--background-secondary);
+	/* The column border is the board's strongest edge: it carries the status
+	   colour so the lanes read apart at a glance. */
+	border: 1px solid color-mix(in srgb, var(--horizon-status-color) 70%, var(--background-modifier-border));
+	border-radius: var(--radius-m);
+	padding: var(--size-4-2);
+	/* Confines layout and style recalculation to the column, so a single card
+	   moving does not re-measure every other lane on a large board. */
+	contain: layout style;
+	animation: task-flow-column-in 140ms ease-out;
+	transition: border-color 120ms ease-out, background-color 120ms ease-out,
+		outline-color 120ms ease-out;
+}
+
+.task-flow-column-header {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	padding: var(--size-2-2) var(--size-2-2) var(--size-4-2);
+	font-weight: var(--font-semibold);
+}
+
+.task-flow-column-dot {
+	width: 0.6em;
+	height: 0.6em;
+	border-radius: 50%;
+	flex: 0 0 auto;
+}
+
+.task-flow-column-count {
+	margin-inline-start: auto;
+	min-width: 1.6em;
+	text-align: center;
+	color: var(--text-muted);
+	background-color: var(--background-modifier-hover);
+	border-radius: var(--radius-l);
+	padding: 0 var(--size-2-2);
+	font-size: var(--font-ui-smaller);
+	font-variant-numeric: tabular-nums;
+}
+
+.task-flow-column-cards {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-3);
+	padding: var(--size-2-1) 0;
+	/* Keeps an empty column big enough to be a drop target. */
+	min-height: 3rem;
+	overflow-y: auto;
+	/* Stops a nested scroll from yanking the whole board around mid-drag. */
+	overscroll-behavior: contain;
+}
+
+/* The sortable wrapper carries only the drag transform and the layout slot;
+   the element inside it is the visible card. */
+.task-flow-card {
+	position: relative;
+	/* Cards fade in as they mount, which is what makes a new card, a card
+	   dropped into another column, or a whole board swap read as motion
+	   instead of a jump. The cross-fade with the drop overlay is intentional. */
+	animation: task-flow-card-in 120ms ease-out;
+}
+
+/* Only while a drag is in flight does every card need its own compositor
+   layer; keeping the hint off an idle board leaves memory free for the cards
+   themselves, which matters on a board with hundreds of them. */
+.task-flow-columns.is-dragging .task-flow-card {
+	will-change: transform;
+}
+
+/* The wrapper is the keyboard-focusable drag handle, so it must show focus. */
+.task-flow-card:focus-visible {
+	outline: 2px solid var(--interactive-accent);
+	outline-offset: 2px;
+	border-radius: var(--radius-m);
+}
+
+@keyframes task-flow-card-in {
+	from {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* The lifted card arrives with a small tilt and scale, so the drag reads as
+   picking the card up off the board rather than teleporting it. */
+@keyframes task-flow-card-lift {
+	from {
+		opacity: 0.85;
+		transform: none;
+	}
+	to {
+		opacity: 1;
+		transform: rotate(1.5deg) scale(1.03);
+	}
+}
+
+@keyframes task-flow-column-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* TaskNotes-style card: a flat row that highlights on hover rather than a
+   floating panel. The status lives in the leading dot, not a coloured spine, but
+   it also carries the card's edge: a saturated status border plus a translucent
+   ring, so two cards stacked in the same column read as two cards and not as one
+   block. The ring is a shadow, so the bold edge costs no layout. */
+.task-flow-card-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-2-1);
+	background-color: var(--background-primary);
+	border: 1px solid
+		color-mix(
+			in srgb,
+			var(--horizon-status-color, var(--background-modifier-border)) 80%,
+			var(--background-modifier-border)
+		);
+	border-radius: var(--radius-m);
+	padding: var(--size-4-2) var(--size-4-3);
+	box-shadow:
+		0 0 0 1px
+			color-mix(
+				in srgb,
+				var(--horizon-status-color, var(--background-modifier-border)) 28%,
+				transparent
+			),
+		0 1px 2px rgb(0 0 0 / 7%);
+	cursor: grab;
+	/* Avoids the double-tap zoom delay while still allowing a column to scroll. */
+	touch-action: manipulation;
+	transition: opacity 120ms ease-out, background-color 120ms ease-out,
+		border-color 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+.task-flow-card-content:hover,
+.task-flow-card-content:focus-visible {
+	background-color: var(--background-modifier-hover);
+	border-color: var(--horizon-status-color, var(--interactive-accent));
+	box-shadow:
+		0 0 0 2px color-mix(in srgb, var(--horizon-status-color, var(--interactive-accent)) 35%, transparent),
+		0 2px 6px rgb(0 0 0 / 16%);
+}
+
+/* A finished card recedes rather than disappearing: it is still readable, but it
+   no longer competes with the work that is left. The fade stays light enough
+   that the title keeps its contrast - dimming the text colour as well would put
+   it under WCAG AA. */
+.task-flow-card-content.is-done {
+	opacity: 0.8;
+}
+
+/* Cancelled keeps full contrast on the strikethrough, so the state is legible
+   without relying on the colour alone. */
+.task-flow-card-content.is-cancelled .task-flow-card-title {
+	text-decoration: line-through;
+}
+
+/* Urgent is the one signal that should not have to be read: a press-out red dot
+   pinned to the card's top-right corner, ringed so it sits on the card rather
+   than in the text. The priority chip still spells the level out. */
+.task-flow-card-urgent {
+	position: absolute;
+	top: var(--size-2-2);
+	inset-inline-end: var(--size-2-2);
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: var(--color-red);
+	box-shadow:
+		0 0 0 2px var(--task-flow-urgent-halo, var(--background-primary)),
+		0 0 0 3px color-mix(in srgb, var(--color-red) 55%, transparent);
+	pointer-events: none;
+}
+
+/* The halo has to match whatever the card's background currently is, or it
+   shows as a pale ring the moment the card is hovered. */
+.task-flow-card-content:hover .task-flow-card-urgent,
+.task-flow-card-content:focus-within .task-flow-card-urgent {
+	--task-flow-urgent-halo: var(--background-modifier-hover);
+}
+
+/* The badge owns the corner, so the title row keeps clear of it. */
+.task-flow-card-content.is-urgent .task-flow-card-title-row {
+	padding-inline-end: 1.15rem;
+}
+
+/* The lifted card that follows the cursor. */
+.task-flow-card-content.is-overlay {
+	background-color: var(--background-primary);
+	border: 1px solid var(--interactive-accent);
+	box-shadow: var(--shadow-l);
+	cursor: grabbing;
+	pointer-events: none;
+	transform: rotate(1.5deg) scale(1.03);
+	animation: task-flow-card-lift 120ms cubic-bezier(0.2, 0, 0, 1);
+	will-change: transform;
+}
+
+/* The original slot stays visible but recedes while its card is in flight. */
+.task-flow-card.is-dragging .task-flow-card-content {
+	opacity: 0.35;
+}
+
+.task-flow-column.is-over {
+	background-color: var(--background-secondary-alt);
+	border-color: var(--interactive-accent);
+	outline: 1px dashed var(--interactive-accent);
+	outline-offset: -3px;
+}
+
+.task-flow-column-hint {
+	margin: var(--size-4-1) 0;
+	padding: var(--size-4-4) var(--size-4-2);
+	border: 1px dashed var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+	text-align: center;
+}
+
+/* Respect a reduced-motion preference: repositioning still works, the tilt and
+   the spring are simply gone. */
+@media (prefers-reduced-motion: reduce) {
+	.task-flow-card,
+	.task-flow-columns.is-dragging .task-flow-card {
+		will-change: auto;
+		animation: none;
+	}
+	.task-flow-card-content,
+	.task-flow-column {
+		transition: none;
+	}
+	.task-flow-column {
+		animation: none;
+	}
+	.task-flow-card-content.is-overlay {
+		transform: none;
+		box-shadow: none;
+		animation: none;
+	}
+	.task-flow-popover {
+		animation: none;
+	}
+}
+
+/* A task filed in the wrong folder says so instead of being moved behind the
+   user's back; the badge itself is the fix. */
+.task-flow-card-folder {
+	flex: none;
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-medium);
+	line-height: 1;
+	padding: 0 var(--size-2-2);
+	border-radius: var(--radius-s);
+	background-color: color-mix(in srgb, var(--text-error) 18%, transparent);
+	border: 1px solid color-mix(in srgb, var(--text-error) 60%, transparent);
+	color: var(--text-normal);
+}
+
+.task-flow-card-priority {
+	display: inline-flex;
+	align-items: center;
+	flex: 0 0 auto;
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-medium);
+	line-height: 1.8;
+	padding: 0 var(--size-4-2);
+	border: 1px solid color-mix(in srgb, var(--text-normal) 22%, transparent);
+	border-radius: var(--radius-l);
+	background-color: color-mix(in srgb, var(--text-normal) 10%, transparent);
+	/* The pill's tint and border carry the level; the text stays at the body
+	 	colour so it is legible in every theme. */
+	color: var(--text-normal);
+}
+
+.task-flow-card-priority.is-high {
+	border-color: color-mix(in srgb, var(--text-warning) 55%, transparent);
+	background-color: color-mix(in srgb, var(--text-warning) 16%, transparent);
+}
+.task-flow-card-priority.is-urgent {
+	border-color: color-mix(in srgb, var(--text-error) 60%, transparent);
+	background-color: color-mix(in srgb, var(--text-error) 18%, transparent);
+	font-weight: var(--font-semibold);
+}
+
+.task-flow-card-title-row {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+}
+
+.task-flow-card-title {
+	flex: 1 1 auto;
+	/* One weight up from the body default: the title is the one line that has to
+	 	be readable at a glance, and weight costs no layout. */
+	font-weight: var(--font-medium);
+	line-height: 1.4;
+	overflow-wrap: anywhere;
+}
+
+.task-flow-card-warning {
+	flex: 0 0 auto;
+	width: 1.1em;
+	height: 1.1em;
+	line-height: 1.1em;
+	text-align: center;
+	border-radius: 50%;
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	/* A tinted badge rather than a filled one: white on yellow fails contrast, and
+	 	the glyph plus the tint carry the warning without relying on colour. */
+	background-color: color-mix(in srgb, var(--text-warning) 22%, transparent);
+	border: 1px solid color-mix(in srgb, var(--text-warning) 60%, transparent);
+	color: var(--text-normal);
+}
+
+.task-flow-card-warning.is-error {
+	background-color: color-mix(in srgb, var(--text-error) 22%, transparent);
+	border-color: color-mix(in srgb, var(--text-error) 65%, transparent);
+}
+
+/* The attributes are chips on one wrapping line: a card with tags, a due date and
+   a parent grows by a line instead of pushing the title around, and every fact
+   keeps its own shape rather than running into the next. Chunky text colour
+   rather than a faint one: the chips are information, not decoration. */
+.task-flow-card-meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--size-2-2);
+	margin-top: var(--size-2-2);
+	padding-top: var(--size-2-2);
+	border-top: 1px solid color-mix(in srgb, var(--background-modifier-border) 55%, transparent);
+	font-size: var(--font-ui-smaller);
+	color: var(--text-normal);
+}
+
+.task-flow-card-period {
+	flex: 0 0 auto;
+	line-height: 1.8;
+	padding: 0 var(--size-4-2);
+	border-radius: var(--radius-l);
+	background-color: color-mix(in srgb, var(--text-normal) 10%, transparent);
+}
+
+/* The parent chip is the card's only piece of navigation: an accent-tinted pill
+   with a heavier leading edge, so it reads as "this task belongs to something"
+   and truncates instead of stretching the row. */
+.task-flow-card-parent {
+	display: inline-block;
+	max-width: 100%;
+	padding: 0 var(--size-4-2);
+	height: auto;
+	background-color: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
+	border: 1px solid color-mix(in srgb, var(--interactive-accent) 32%, transparent);
+	border-inline-start-width: 3px;
+	border-radius: var(--radius-l);
+	box-shadow: none;
+	color: var(--text-normal);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-medium);
+	line-height: 1.8;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: bottom;
+	cursor: pointer;
+	transition: background-color 120ms ease-out, color 120ms ease-out,
+		border-color 120ms ease-out;
+}
+
+.task-flow-card-parent.is-unresolved {
+	cursor: default;
+	border-style: dashed;
+	border-inline-start-width: 1px;
+	background-color: transparent;
+	color: var(--text-muted);
+}
+
+.task-flow-card-parent:hover,
+.task-flow-card-parent:focus-visible {
+	background-color: var(--interactive-accent);
+	border-color: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+
+/* The tag group always takes a line of its own: a full-width flex basis forces
+   the break, so tags never crowd the period or the parent chip. Compact density
+   still hides the whole group. */
+.task-flow-card-tags {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--size-2-1);
+	flex: 1 0 100%;
+}
+
+/* A tag chip is tinted from its own colour: the colour pinned in settings, or
+   the hue hashed from the tag's name, so `#work` is the same colour on every
+   card and in every session. The theme only decides how light the tint and the
+   text are: the base colour tints the chip, it does not set the contrast. */
+.task-flow-tag {
+	--tag-base: hsl(210 70% 50%);
+	flex: 0 0 auto;
+	padding: 0 var(--size-4-2);
+	border: 1px solid color-mix(in srgb, var(--tag-base) 32%, transparent);
+	border-radius: var(--radius-l);
+	background-color: color-mix(in srgb, var(--tag-base) 12%, transparent);
+	color: color-mix(in srgb, var(--tag-base) 55%, #000000);
+	box-shadow: none;
+	font-family: var(--font-monospace);
+	font-size: var(--font-ui-smaller);
+	line-height: 1.8;
+	cursor: pointer;
+	transition: border-color 120ms ease-out, background-color 120ms ease-out;
+}
+
+.theme-dark .task-flow-tag {
+	border-color: color-mix(in srgb, var(--tag-base) 38%, transparent);
+	background-color: color-mix(in srgb, var(--tag-base) 26%, transparent);
+	color: color-mix(in srgb, var(--tag-base) 45%, #ffffff);
+}
+
+.task-flow-tag:hover,
+.task-flow-tag:focus-visible {
+	border-color: color-mix(in srgb, var(--tag-base) 70%, transparent);
+	background-color: color-mix(in srgb, var(--tag-base) 22%, transparent);
+}
+
+.theme-dark .task-flow-tag:hover,
+.theme-dark .task-flow-tag:focus-visible {
+	border-color: color-mix(in srgb, var(--tag-base) 60%, transparent);
+	background-color: color-mix(in srgb, var(--tag-base) 32%, transparent);
+}
+
+/* The collapsed rest of the tags is a count, not a tag: it keeps the muted
+   colours instead of claiming a hue of its own. */
+.task-flow-tag.is-more {
+	cursor: default;
+	border-color: color-mix(in srgb, var(--text-normal) 22%, transparent);
+	background-color: color-mix(in srgb, var(--text-normal) 10%, transparent);
+	color: var(--text-normal);
+}
+
+/* The per-card action buttons stay out of the way until they are wanted, but
+   become visible as soon as the card is hovered or anything inside it is
+   focused, so they are reachable by keyboard. */
+.task-flow-card-action {
+	flex: 0 0 auto;
+	background: none;
+	border: none;
+	box-shadow: none;
+	padding: 0 var(--size-2-1);
+	/* Muted, not faint: the control has to be findable once it appears. */
+	color: var(--text-muted);
+	line-height: 1;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.task-flow-card-content:hover .task-flow-card-action,
+.task-flow-card-content:focus-within .task-flow-card-action {
+	opacity: 1;
+}
+
+.task-flow-card-action:hover {
+	color: var(--text-accent);
+}
+
+/* Touch devices have no hover, so the buttons have to be visible. */
+@media (hover: none) {
+	.task-flow-card-action {
+		opacity: 1;
+	}
+}
+
+.task-flow-card-due {
+	flex: 0 0 auto;
+	line-height: 1.8;
+	padding: 0 var(--size-4-2);
+	/* Reserved, so the overdue state does not resize the chip. */
+	border: 1px solid transparent;
+	border-radius: var(--radius-l);
+	background-color: color-mix(in srgb, var(--text-normal) 10%, transparent);
+	font-variant-numeric: tabular-nums;
+}
+
+/* Overdue reads from the tint and the weight; the text keeps the body colour so
+   the date itself stays legible. */
+.task-flow-card-due.is-overdue {
+	border-color: color-mix(in srgb, var(--text-error) 60%, transparent);
+	background-color: color-mix(in srgb, var(--text-error) 18%, transparent);
+	font-weight: var(--font-semibold);
+}
+
+/* The rollup takes the whole line: the count, the bar and the hint only read
+   together, and a bar squeezed next to a chip reads as noise. */
+.task-flow-card-rollup {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	flex: 1 1 100%;
+	font-variant-numeric: tabular-nums;
+}
+
+.task-flow-progress {
+	flex: 1 1 3.5rem;
+	max-width: 10rem;
+	height: 4px;
+	border-radius: 2px;
+	background-color: var(--background-modifier-border);
+	overflow: hidden;
+}
+
+.task-flow-progress-fill {
+	height: 100%;
+	background-color: var(--interactive-accent);
+}
+
+.task-flow-card-hint {
+	/* The words carry the meaning, so the colour is free to stay legible. */
+	color: var(--text-normal);
+	font-weight: var(--font-medium);
+}
+
+.task-flow-banner {
+	border-radius: var(--radius-s);
+	padding: var(--size-4-2) var(--size-4-3);
+	margin-bottom: var(--size-4-3);
+	border: 1px solid var(--background-modifier-border);
+}
+
+.task-flow-banner.is-warning {
+	background-color: var(--background-modifier-error);
+}
+
+.task-flow-banner-title {
+	font-weight: var(--font-semibold);
+}
+
+.task-flow-banner p {
+	margin: var(--size-2-1) 0 0;
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+}
+
+.task-flow-empty {
+	text-align: center;
+	padding: var(--size-4-6) var(--size-4-4);
+	border: 1px dashed var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	margin-bottom: var(--size-4-4);
+}
+
+.task-flow-empty h3 {
+	margin-top: 0;
+}
+
+.task-flow-empty p {
+	color: var(--text-muted);
+	max-width: 40rem;
+	margin-inline: auto;
+}
+
+/* ---------------------------------------------------------------------------
+ * Task form
+ * ------------------------------------------------------------------------ */
+
+/*
+ * Two columns: the frontmatter fields on the left, the note's own text on the
+ * right. Wide enough that neither column has to be read through a straw, and it
+ * folds back to one column on a narrow window.
+ */
+.task-flow-task-modal.modal {
+	width: min(900px, 94vw);
+}
+
+.task-flow-form {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+	gap: var(--size-4-4);
+	align-items: start;
+}
+
+.task-flow-form-main,
+.task-flow-form-details {
+	min-width: 0;
+}
+
+.task-flow-form-details {
+	display: flex;
+	flex-direction: column;
+}
+
+/* The small uppercase label every field carries. */
+.task-flow-form-label {
+	margin-bottom: var(--size-2-1);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.task-flow-form-title {
+	width: 100%;
+	padding: var(--size-4-2) var(--size-4-3);
+	font-size: var(--font-ui-large);
+	font-weight: var(--font-semibold);
+}
+
+.task-flow-form-hint {
+	margin: var(--size-2-1) 0 0;
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+}
+
+/* A hairline per field, so the rows read as one list rather than as a form. */
+.task-flow-form-rows {
+	margin-top: var(--size-4-3);
+}
+
+.task-flow-form-rows .setting-item {
+	padding: var(--size-2-2) 0;
+	align-items: center;
+	border-top: 1px solid color-mix(in srgb, var(--background-modifier-border) 60%, transparent);
+}
+
+.task-flow-form-rows .setting-item-name {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.task-flow-form-rows .setting-item-description {
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+}
+
+.task-flow-form-rows .setting-item-control {
+	justify-content: flex-end;
+}
+
+/* Narrow controls, so the label and its value still read as a pair. */
+.task-flow-form-rows .setting-item-control input[type="text"],
+.task-flow-form-rows .setting-item-control select {
+	width: min(16rem, 100%);
+}
+
+/*
+ * The tag field: chosen tags as removable chips, and a search box whose dropdown
+ * is Obsidian's own suggest popover. Every chip is tinted from the same
+ * `--tag-base` the cards use, so a tag looks the same wherever it appears.
+ */
+.task-flow-tag-field {
+	margin-top: var(--size-4-3);
+	padding-top: var(--size-2-2);
+	border-top: 1px solid color-mix(in srgb, var(--background-modifier-border) 60%, transparent);
+}
+
+.task-flow-tag-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-2-2);
+	margin-top: var(--size-2-2);
+}
+
+.task-flow-tag-chips.is-empty {
+	display: none;
+}
+
+.task-flow-tag-field .task-flow-tag {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-2-1);
+}
+
+/* The cross belongs to the tag, so it takes the chip's colour. Obsidian styles
+   every `button` and paints every icon from `--icon-color` with global rules, so
+   this one control has to win outright rather than by specificity. */
+.task-flow-tag-remove {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 !important;
+	border: none !important;
+	background: none !important;
+	box-shadow: none !important;
+	color: inherit !important;
+	cursor: pointer;
+	--icon-size: 0.85em;
+}
+
+.task-flow-tag-remove svg.svg-icon {
+	color: inherit !important;
+	stroke: currentColor !important;
+}
+
+.task-flow-tag-input {
+	width: 100%;
+	margin-top: var(--size-2-1);
+}
+
+/* A dropdown row: the tag's own colour as a dot, then the name. */
+.task-flow-tag-suggestion {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+}
+
+.task-flow-tag-suggestion-dot {
+	flex: 0 0 auto;
+	width: 0.6em;
+	height: 0.6em;
+	border-radius: 50%;
+	background-color: var(--tag-base, var(--text-muted));
+}
+
+.task-flow-form-body {
+	flex: 1 1 auto;
+	width: 100%;
+	min-height: 16rem;
+	resize: vertical;
+	/* Note text, so it is set in the note font rather than the interface one. */
+	font-family: var(--font-text);
+	font-size: var(--font-text-size);
+	line-height: 1.5;
+}
+
+.task-flow-task-modal .task-flow-parent-value {
+	/* Hugs its text so it reads as a value chip, not as a disabled input. */
+	width: fit-content;
+	max-width: 100%;
+	margin-top: var(--size-2-1);
+	padding: var(--size-2-1) var(--size-4-2);
+	background-color: var(--background-secondary);
+	border-radius: var(--radius-s);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	overflow-wrap: anywhere;
+}
+
+.task-flow-task-modal .task-flow-parent-value.is-empty {
+	color: var(--text-faint);
+}
+
+.task-flow-info {
+	margin-top: var(--size-4-3);
+}
+
+.task-flow-info-row {
+	display: flex;
+	gap: var(--size-2-2);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+}
+
+.task-flow-info-label {
+	flex: 0 0 5rem;
+	color: var(--text-faint);
+}
+
+.task-flow-info-value {
+	overflow-wrap: anywhere;
+}
+
+/*
+ * The objective framework: twelve terms in two layers, spanning both columns of
+ * the form because a goal is not a column's worth of text.
+ */
+.task-flow-framework {
+	grid-column: 1 / -1;
+	margin-top: var(--size-4-2);
+	padding-top: var(--size-4-3);
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.task-flow-framework-layers {
+	display: grid;
+	/* The two layers sit side by side as soon as there is room, because the
+	   split between designing and running is the point of the layout. */
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	gap: var(--size-4-2) var(--size-4-4);
+	margin-top: var(--size-4-2);
+}
+
+.task-flow-framework-layer-title {
+	margin-bottom: var(--size-2-1);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+/* Stacked rather than label-left/control-right: the value is prose, so it needs
+   the full width of its column. */
+.task-flow-framework .setting-item {
+	flex-direction: column;
+	align-items: stretch;
+	gap: var(--size-2-1);
+	padding: var(--size-4-2) 0 0;
+	border-top: none;
+}
+
+.task-flow-framework .setting-item-name {
+	text-transform: none;
+	letter-spacing: 0;
+	font-size: var(--font-ui-small);
+	font-weight: var(--font-medium);
+	color: var(--text-normal);
+}
+
+.task-flow-framework .setting-item-control {
+	justify-content: stretch;
+}
+
+.task-flow-framework textarea {
+	width: 100%;
+	min-height: 3.25rem;
+	resize: vertical;
+}
+
+/*
+ * The task panel at the top of a task's note (reading view): the fields the user
+ * filled in, plus an objective's framework, laid out so the note is readable
+ * without opening the modal. Empty fields are simply not drawn.
+ */
+.task-flow-note-panel {
+	margin-bottom: var(--size-4-4);
+	padding: var(--size-4-2) var(--size-4-3);
+	background-color: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+}
+
+.task-flow-note-panel-title {
+	margin-bottom: var(--size-2-1);
+	font-weight: var(--font-semibold);
+}
+
+.task-flow-note-fields {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	align-items: baseline;
+	gap: var(--size-2-1) var(--size-4-2);
+	margin: 0;
+}
+
+.task-flow-note-field-label {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.task-flow-note-field-value {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.task-flow-note-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-2-1);
+}
+
+/* The panel's chips are labels, not the board's clickable tag filter. */
+.task-flow-note-tags .task-flow-tag {
+	cursor: default;
+}
+
+/* The framework sits under the fields as its own block. */
+.task-flow-note-framework {
+	margin-top: var(--size-4-2);
+}
+
+.task-flow-note-fields + .task-flow-note-framework {
+	padding-top: var(--size-4-2);
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+/*
+ * The plugin's own frontmatter is bookkeeping (the task marker, the order key,
+ * the archive and rollover flags), and a nested `framework` object renders in
+ * Obsidian's Properties panel as a JSON blob - the opposite of readable. The
+ * panel above shows what matters, so these rows are hidden to keep the note
+ * clean. Nothing is lost: the values stay in frontmatter and the task form is
+ * the editor.
+ */
+.metadata-property[data-property-key="framework"],
+.metadata-property[data-property-key="tf-task"],
+.metadata-property[data-property-key="order"],
+.metadata-property[data-property-key="carriedFrom"],
+.metadata-property[data-property-key="archived"],
+.metadata-property[data-property-key="completedAt"] {
+	display: none;
+}
+
+.task-flow-framework-terms {
+	margin: 0;
+}
+
+.task-flow-framework-term {
+	margin-top: var(--size-4-2);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.task-flow-framework-value {
+	margin: 0;
+	/* The value is prose, so it keeps the note's line breaks. */
+	white-space: pre-wrap;
+}
+
+/* The footer stays put while the fields scroll. */
+.task-flow-modal-footer {
+	position: sticky;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--size-4-2);
+	margin-top: var(--size-4-4);
+	padding-top: var(--size-4-2);
+	background-color: var(--background-primary);
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.task-flow-modal-footer .setting-item {
+	padding: 0;
+	border-top: none;
+}
+
+.task-flow-modal-footer-end .setting-item-control {
+	gap: var(--size-4-2);
+	justify-content: flex-end;
+}
+
+@media (max-width: 720px) {
+	.task-flow-form {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.task-flow-form-body {
+		min-height: 10rem;
+	}
+}
+
+.task-flow-modal-issues,
+.task-flow-modal-notes {
+	margin-top: var(--size-4-3);
+	font-size: var(--font-ui-smaller);
+}
+
+.task-flow-modal-issues-title {
+	font-weight: var(--font-semibold);
+	color: var(--text-error);
+}
+
+.task-flow-modal-notes-title {
+	font-weight: var(--font-semibold);
+	color: var(--text-muted);
+}
+
+.task-flow-modal-issues ul,
+.task-flow-modal-notes ul {
+	margin: var(--size-2-1) 0 0;
+	padding-inline-start: var(--size-4-4);
+	color: var(--text-muted);
+}
+
+.task-flow-modal-issues li.is-error {
+	color: var(--text-error);
+}
+
+/* ---------------------------------------------------------------------------
+ * Quick add and inline rename
+ * ------------------------------------------------------------------------ */
+
+/* Sits at the bottom of the column so it stays put as cards grow. */
+.task-flow-column-add {
+	margin-top: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--size-2-2);
+	width: 100%;
+	padding: var(--size-4-2);
+	background-color: transparent;
+	border: 1px dashed var(--background-modifier-border);
+	box-shadow: none;
+	border-radius: var(--radius-s);
+	color: var(--text-muted);
+	font-weight: var(--font-medium);
+	cursor: pointer;
+	transition: background-color 120ms ease-out, color 120ms ease-out,
+		border-color 120ms ease-out;
+}
+
+.task-flow-column-add:hover {
+	background-color: var(--background-modifier-hover);
+	border-color: var(--interactive-accent);
+	color: var(--text-normal);
+}
+
+.task-flow-card-title-input {
+	width: 100%;
+	font-size: var(--font-ui-small);
+	/* Sits in place of the title, so it must not jump when it opens. */
+	margin: calc(-1 * var(--size-2-1)) 0;
+}
+
+.task-flow-new-task {
+	margin-inline-start: var(--size-4-2);
+}
+
+/* ---------------------------------------------------------------------------
+ * Parent picker
+ * ------------------------------------------------------------------------ */
+
+.task-flow-suggestion-title {
+	font-weight: var(--font-medium);
+}
+
+.task-flow-suggestion-meta {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+}
+
+.task-flow-suggestion-badges {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	margin-top: var(--size-2-1);
+}
+
+/* The parent a task already has, so it is obvious what is about to change. */
+.suggestion-item.is-current .task-flow-suggestion-title::after {
+	content: " •";
+	color: var(--text-accent);
+}
+
+.suggestion-item.is-clear .task-flow-suggestion-title {
+	color: var(--text-muted);
+	font-weight: var(--font-normal);
+}
+
+/* ---------------------------------------------------------------------------
+ * Shared chips and badges
+ * ------------------------------------------------------------------------ */
+
+.task-flow-badge {
+	font-size: var(--font-ui-smaller);
+	border-radius: var(--radius-s);
+	padding: 0 var(--size-2-2);
+	background-color: var(--background-modifier-hover);
+	color: var(--text-muted);
+	white-space: nowrap;
+}
+
+/* Colour comes from the status itself; the text colour is set beside it, because
+   only the code knows what the background will be. */
+.task-flow-status-chip {
+	font-size: var(--font-ui-smaller);
+	border-radius: var(--radius-s);
+	padding: 0 var(--size-2-2);
+	white-space: nowrap;
+}
+
+.task-flow-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-2-1);
+	font-family: var(--font-monospace);
+	font-size: var(--font-ui-smaller);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-l);
+	padding: 0 var(--size-2-2);
+	background-color: var(--background-secondary);
+	color: var(--text-muted);
+	cursor: pointer;
+}
+
+.task-flow-chip.is-active,
+.task-flow-chip[aria-pressed="true"] {
+	background-color: var(--interactive-accent);
+	color: var(--text-on-accent);
+	border-color: var(--interactive-accent);
+}
+
+.task-flow-chip-remove {
+	all: unset;
+	cursor: pointer;
+	line-height: 1;
+	padding: 0 var(--size-2-1);
+	color: inherit;
+}
+
+.task-flow-chip-remove:hover {
+	color: var(--text-error);
+}
+
+.task-flow-chip-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-2-2);
+	padding: var(--size-4-2) var(--size-4-2) 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Quick edit popup
+ * ------------------------------------------------------------------------ */
+
+/* A transparent backdrop gives the popup a click-away target and keeps the
+   keyboard inside it, without dimming the board the user is working on. */
+.task-flow-popover-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: var(--layer-popover);
+}
+
+.task-flow-popover {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+	background-color: var(--background-primary);
+	border: 1px solid color-mix(in srgb, var(--background-modifier-border) 70%, transparent);
+	border-radius: var(--radius-l);
+	box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 16px 40px rgb(0 0 0 / 24%);
+	padding: var(--size-4-4);
+	overflow-y: auto;
+	animation: task-flow-popover-in 140ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+@keyframes task-flow-popover-in {
+	from {
+		opacity: 0;
+		transform: translateY(-6px) scale(0.97);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* On a phone the popup becomes a sheet: a card-sized panel would be unusable
+   under a thumb, and the anchor is meaningless on a small screen. */
+.task-flow-popover.is-sheet {
+	inset-inline: 0;
+	bottom: 0;
+	top: auto;
+	width: auto;
+	max-height: 70vh;
+	border-radius: var(--radius-l) var(--radius-l) 0 0;
+}
+
+.task-flow-popover-header {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	padding-bottom: var(--size-4-3);
+	margin-bottom: var(--size-2-1);
+	border-bottom: 1px solid color-mix(in srgb, var(--background-modifier-border) 70%, transparent);
+}
+
+.task-flow-popover-title-input {
+	flex: 1 1 auto;
+	font-weight: var(--font-semibold);
+	font-size: var(--font-ui-medium);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--radius-s);
+	padding: var(--size-2-2);
+	margin-inline-start: calc(-1 * var(--size-2-2));
+}
+
+.task-flow-popover-title-input:hover,
+.task-flow-popover-title-input:focus {
+	background-color: var(--background-secondary);
+	border-color: var(--background-modifier-border);
+}
+
+.task-flow-popover-close {
+	all: unset;
+	cursor: pointer;
+	padding: 0 var(--size-2-2);
+	color: var(--text-muted);
+	font-size: var(--font-ui-medium);
+}
+
+.task-flow-popover-close:hover {
+	color: var(--text-normal);
+}
+
+.task-flow-popover-body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+}
+
+.task-flow-popover-row {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	min-height: 2.25em;
+}
+
+.task-flow-popover-label {
+	flex: 0 0 5.5em;
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-medium);
+	letter-spacing: 0.02em;
+}
+
+.task-flow-popover-control {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.task-flow-popover-control.is-wrap {
+	flex-wrap: wrap;
+}
+
+.task-flow-popover-control select,
+.task-flow-popover-control input {
+	flex: 1 1 auto;
+	min-width: 0;
+	border-radius: var(--radius-s);
+}
+
+.task-flow-popover-readonly {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+}
+
+.task-flow-popover-swatch {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	flex: none;
+}
+
+.task-flow-popover-mini {
+	font-size: var(--font-ui-smaller);
+	padding: 0 var(--size-2-2);
+	background-color: var(--background-modifier-hover);
+	color: var(--text-muted);
+	border: none;
+	border-radius: var(--radius-s);
+	cursor: pointer;
+}
+
+.task-flow-popover-mini:hover {
+	color: var(--text-normal);
+}
+
+.task-flow-popover-tag-input {
+	flex: 1 1 6em;
+	min-width: 6em;
+	font-family: var(--font-monospace);
+}
+
+.task-flow-popover-note {
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+}
+
+.task-flow-popover-footer {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	flex-wrap: wrap;
+	padding-top: var(--size-4-3);
+	margin-top: var(--size-2-1);
+	border-top: 1px solid color-mix(in srgb, var(--background-modifier-border) 70%, transparent);
+}
+
+.task-flow-popover-footer button {
+	border-radius: var(--radius-s);
+	min-width: 4.5em;
+}
+
+.task-flow-popover-spacer {
+	flex: 1 1 auto;
+}
+/*
+ * Kanban layout: fixed-width columns, swimlane rows, compact density, WIP
+ * counts and the optional skip-rendering optimisation for long columns.
+ * Mirrors TaskNotes' `.kanban-view__board--swimlanes` grid, simplified to
+ * stacked rows so dnd-kit keeps a single sortable context per cell.
+ */
+
+.task-flow-columns .task-flow-column {
+	flex: 0 0 var(--task-flow-column-width, 280px);
+	min-width: 0;
+	max-width: var(--task-flow-column-width, 280px);
+}
+
+/* --- Swimlanes --- */
+.task-flow-columns.is-swimlanes {
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.task-flow-swimlane {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-2-2);
+}
+
+.task-flow-swimlane-label {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	font-weight: var(--font-semibold);
+	color: var(--text-muted);
+}
+
+.task-flow-swimlane-title {
+	text-transform: capitalize;
+}
+
+.task-flow-swimlane-cells {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--size-4-3);
+}
+
+.task-flow-swimlane-cells .task-flow-column {
+	max-height: var(--task-flow-swimlane-max-height, 600px);
+}
+
+/* --- Compact density --- */
+.task-flow-columns.is-compact .task-flow-card-content {
+	padding: var(--size-2-2) var(--size-4-2);
+	gap: 0;
+}
+
+.task-flow-columns.is-compact .task-flow-card-period,
+.task-flow-columns.is-compact .task-flow-card-tags {
+	display: none;
+}
+
+/* --- Column header extras --- */
+.task-flow-column-handle {
+	flex: 0 0 auto;
+	cursor: grab;
+}
+
+.task-flow-columns.is-dragging .task-flow-column-handle {
+	cursor: grabbing;
+}
+
+.task-flow-column.is-reordering {
+	opacity: 0.6;
+}
+
+.task-flow-column-pinned {
+	flex: 0 0 auto;
+	color: var(--text-warning);
+	font-size: var(--font-ui-smaller);
+}
+
+.task-flow-column-count.is-over-limit {
+	color: var(--text-error);
+	background-color: color-mix(in srgb, var(--text-error) 18%, transparent);
+}
+
+/*
+ * Long columns: the browser skips rendering offscreen cards. The elements stay
+ * in the DOM, so dnd-kit still has every droppable and the drop animation
+ * measures the real slot - only paint and layout work is skipped.
+ */
+.task-flow-column-cards.is-virtualized .task-flow-card {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 4.5rem;
+}
